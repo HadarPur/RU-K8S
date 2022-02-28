@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: service-a
+spec:
+    replicas: 3
+    selector:
+        matchLabels:
+            app: service-a
+    template:
+        metadata:
+            name: service-a
+            labels:
+                app: service-a
+        spec:
+            containers:
+            - name: service-a
+              image: gcr.io/k8s-fb/k8s-fb/app:latest
+              imagePullPolicy: Always # to conserve on pulling can change to not allways pull
+              env:
+              - name: RETURN_VALUE
+                value: "service-a"
+              - name: DEPENDENCIES
+                value: '{"destinations":[{"target":"http://service-b-svc.default.svc.cluster.local/load","request_payload_kb_size":50,"config":{"memory_params":{"duration_seconds":0.2,"kb_count":50},"cpu_params":{"duration_seconds":0.2,"load":0.2}}},{"target":"http://service-c-svc.default.svc.cluster.local/load","request_payload_kb_size":50,"config":{"memory_params":{"duration_seconds":0.2,"kb_count":50},"cpu_params":{"duration_seconds":0.2,"load":0.2}}}]}'
+              ports:
+              - name: http-port
+                containerPort: 8081
+              resources:
+                requests: 
+                    cpu: 140m
+                    memory: 24Mi
+                limits:
+                    cpu: 1000m
+                    memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: service-a-svc
+    labels:
+      app: service-a
+spec:
+    type: LoadBalancer
+    selector:
+        app: service-a
+    ports:
+    - name: metrics
+      port: 80
+      nodePort: 31050
+      targetPort: http-port
+      protocol: TCP
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+    name: service-a-autoscaler
+spec:
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: service-a
+    minReplicas: 3
+    maxReplicas: 50
+    metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: service-d
+spec:
+    replicas: 3
+    selector:
+        matchLabels:
+            app: service-d
+    template:
+        metadata:
+            name: service-d
+            labels:
+                app: service-d
+        spec:
+            containers:
+            - name: service-d
+              image: gcr.io/k8s-fb/k8s-fb/app:latest
+              imagePullPolicy: Always # to conserve on pulling can change to not allways pull
+              env:
+              - name: RETURN_VALUE
+                value: "service-d"
+              ports:
+              - name: http-port
+                containerPort: 8081
+              resources:
+                requests: 
+                    cpu: 140m
+                    memory: 24Mi
+                limits:
+                    cpu: 1000m
+                    memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: service-d-svc
+spec:
+    type: LoadBalancer
+    selector:
+        app: service-d
+    ports:
+    - name: metrics
+      port: 80
+      nodePort: 31053
+      targetPort: http-port
+      protocol: TCP
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+    name: service-d-autoscaler
+spec:
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: service-d
+    minReplicas: 3
+    maxReplicas: 50
+    metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
