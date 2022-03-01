@@ -30,13 +30,13 @@ def safe_open(file_name_with_dierctory: str, permision="wb+"):
 def get_power_of_attack(attack_type):
     if attack_type == 1:
         return 3
-    return 10
+    return 20
 
 # GLOBALS
 '''
     The Endpoint to attack!
 '''
-HOST = "http://35.232.90.140"
+HOST = "http://34.134.116.188"
 END_POINT = '{}:80/load'.format(HOST)
 '''
     1 - Experiment 1, where we attack without trigger the Cluster Autoscaling
@@ -47,15 +47,15 @@ ATTACK_TYPE = 3
 CONFIG = {
     'scaled_attack': True,  # A new options - aas noticed in experiments
     'r': 5,  # Average requests rate per unit time of legitimate clients
-    'k': get_power_of_attack(ATTACK_TYPE),  # power of attack
-    'n': 0,  # Number of attack cycles - Should be dynamic counter every on attack
-    'T': 0,  # Cycle duration in seconds
-    't_on': 0,
+    'k': 20,  # power of attack
+    'n': 20,  # Number of attack cycles - Should be dynamic counter every on attack
+    'T': 1800,  # Cycle duration in seconds
+    't_on': 600,
     # int, Time of on-attack phase in seconds, should be dynamic - we should be dynamic by the is_running_attack flag
-    't_off': 0,  # int, Time of off-attack phase in seconds - count dynamically
-    'i_up': 0,  # int, Threshold interval for scale-up in seconds. - NOT CONTROLED IN KUBERNETES
-    'i_down': 0,  # int, Threshold interval for scale-down in seconds. - NOT CONTROLED IN KUBERNETES
-    'w_up': 0 , #
+    't_off': 1200,  # int, Time of off-attack phase in seconds - count dynamically
+    'i_up': 60,  # int, Threshold interval for scale-up in seconds. - NOT CONTROLED IN KUBERNETES
+    'i_down': 300,  # int, Threshold interval for scale-down in seconds. - NOT CONTROLED IN KUBERNETES
+    'w_up': 120 , #
     'ragular_load': 'jmeter_test_cases/yoyo/regulat_load.jmx',
     'attack_load': 'jmeter_test_cases/yoyo/attack_load.jmx',
 }
@@ -72,8 +72,10 @@ def jmeter_command(test_case):
 def send_probe(url):
     data = {}
     data["memory_params"] = {"duration_seconds": 0.2, "kb_count":50}
-    data["cpu_params"] = {"load" : 0.8, "duration_seconds": 1}
+    data["cpu_params"] = {"load" : 0.9, "duration_seconds": 0.001}
+    print(data)
     params = json.dumps(data)
+    print(params) 
     headers = {"Content-Type" : "application/json"}
     response = requests.post(url,headers=headers,data=params)
     if response.status_code != 200:
@@ -117,7 +119,7 @@ def start_regular_load():
 
 
 def start():
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath("cerd.json")
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath("k8s-fb-25b6c287d8ce.json")
     print(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
 
     regular_load_process = start_regular_load()
@@ -319,4 +321,3 @@ def start():
 
 
 start()
-
