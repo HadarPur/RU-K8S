@@ -35,6 +35,8 @@ apiVersion: v1
 kind: Service
 metadata:
     name: service-d-svc
+    labels:
+      app: service-d
 spec:
     type: LoadBalancer
     selector:
