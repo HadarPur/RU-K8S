@@ -61,13 +61,13 @@ watch kubectl get pods,nodes,hpa,services
 ## Note:
 If there is a change in app.py, run:
 ```
-kubectl delete --all pods
-```
-```
 make build
 ```
 ```
 make deploy-services
+```
+```
+kubectl delete --all pods
 ```
 # Brief explanation on the kubestl output
 7.1) pods - will show the application pods
