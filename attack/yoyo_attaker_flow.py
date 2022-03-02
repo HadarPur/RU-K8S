@@ -31,7 +31,7 @@ def safe_open(file_name_with_dierctory: str, permision="wb+"):
 HOST = "http://34.134.116.188"
 END_POINT = '{}:80/load'.format(HOST)
 CONFIG = {
-    'scaled_attack': True,  # A new options - aas noticed in experiments
+    'scaled_attack': False,  # A new options - aas noticed in experiments
     'r': 5,  # Average requests rate per unit time of legitimate clients
     'k': 20,  # power of attack
     'n': 20,  # Number of attack cycles - Should be dynamic counter every on attack
