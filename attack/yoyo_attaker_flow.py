@@ -24,23 +24,12 @@ def safe_open(file_name_with_dierctory: str, permision="wb+"):
 
     return open(file_name_with_dierctory, permision)
 
-def get_power_of_attack(attack_type):
-    if attack_type == 1:
-        return 3
-    return 20
-
 # GLOBALS
 '''
     The Endpoint to attack!
 '''
 HOST = "http://34.134.116.188"
 END_POINT = '{}:80/load'.format(HOST)
-'''
-    1 - Experiment 1, where we attack without trigger the Cluster Autoscaling
-    2 - Experiment 2 - Naive
-    3 - Experiment 2 - Sophisticated
-'''
-ATTACK_TYPE = 3
 CONFIG = {
     'scaled_attack': True,  # A new options - aas noticed in experiments
     'r': 5,  # Average requests rate per unit time of legitimate clients
@@ -70,9 +59,7 @@ def send_probe(url):
     data = {}
     data["memory_params"] = {"duration_seconds": 0.2, "kb_count":50}
     data["cpu_params"] = {"load" : 0.9, "duration_seconds": 0.001}
-    print(data)
     params = json.dumps(data)
-    print(params) 
     headers = {"Content-Type" : "application/json"}
     response = requests.post(url,headers=headers,data=params)
     if response.status_code != 200:
