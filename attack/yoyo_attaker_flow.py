@@ -13,9 +13,6 @@ import requests
 from kubernetes import client, config
 from ratelimit import limits, sleep_and_retry
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-csv_file_name = str(dir_path) + "/{}.table.csv".format(str(datetime.datetime.now()))
-
 # Helper Functions
 def safe_open(file_name_with_dierctory: str, permision="wb+"):
     if not os.path.exists(os.path.dirname(file_name_with_dierctory)):
@@ -152,161 +149,154 @@ def start():
     cpu_load = 0
     last_scale_time = None
 
-    with safe_open(csv_file_name, 'w') as f:
-        w = csv.writer(f, delimiter=',')
-        # Probe test
-        for index in range(1000000):
+    for index in range(1000000):
 
+        try:
+            print('sending probe')
+            res_time = send_probe(END_POINT)
+            print('revived probe')
+        except Exception as e:
+            print('retry - sending probe - {}'.format(e))
+            res_time = send_probe(END_POINT)
+            print('retry - revived probe')
+        # Checking
+        if is_running_attack:
+            # Handle attack testing on cool down
+            print('We Are under attack - checking!')
+            # calc avg time
+            probs_times_under_attack.append(res_time)
+            sample_count = len(probs_times_under_attack)
+            mean_attack_res_time = mean(probs_times_under_attack)
+            avg_attack_res_time = sum(probs_times_under_attack) / sample_count
+            per95_attack_res_time = np.percentile(np.array(probs_times_under_attack), 95)
+            per90_attack_res_time = np.percentile(np.array(probs_times_under_attack), 90)
+            threshold = latest_attack_index+1000
+            hard_reset_trigger = index > threshold
+            if (index > 120 and cpu_load <= 56 and nodes_count > 2):
+                is_running_attack = False
+                if attack_process:
+                    try:
+                        print("killing attack process")
+                        attack_process.kill()
+                        attack_process = None
+                    except Exception as e:
+                        print("kill attack fail - {}".format(e))
+
+
+        else:
+            # Resting avg
+            avg_attack_res_time = 0
+            mean_attack_res_time = 0
+            per95_attack_res_time = 0
+            per90_attack_res_time = 0
+            probs_times_under_attack = []
+            # Handle no in attack logic - should we init one?
+            # Check pod number od res time
+            print('We Are at peace checking if we should start the attack on titan!')
+            print('Latest attack index - {}'.format(latest_attack_index))
+            if index == 50:  # first attack!
+                is_running_attack = True
+                print('init first attack')
+                latest_attack_index = index
+                attack_process = start_on_attack_phase()
+            # latest_attack_index
+            # We need to send a small burst of an attack and check for res_time > 2
+            # This is a hack - please use prob above- just need to parse the output of the stdout
+            if nodes_count == 3 and index > 50:
+                is_running_attack = True
+                latest_attack_index = index
+                print('init attack by POD COUNT on index = {}'.format(index))
+                attack_process = start_on_attack_phase()
+
+        if index % 9 == 0:
+            name = 'service-a-autoscaler'
+            namespace = 'default'
             try:
-                print('sending probe')
-                res_time = send_probe(END_POINT)
-                print('revived probe')
+                print('Updating cluster info')
+                api_response = autoscale_api_instance.read_namespaced_horizontal_pod_autoscaler(name, namespace,
+                                                                                                pretty=True)
+                nodes_count = len(list(cluster_api.list_node().items))
+                active_pods_count = len(
+                    [pod for pod in cluster_api.list_pod_for_all_namespaces(label_selector='app=service-a').items
+                     if pod.status.phase == 'Running'])
             except Exception as e:
-                print('retry - sending probe - {}'.format(e))
-                res_time = send_probe(END_POINT)
-                print('retry - revived probe')
-            # Checking
-            if is_running_attack:
-                # Handle attack testing on cool down
-                print('We Are under attack - checking!')
-                # calc avg time
-                probs_times_under_attack.append(res_time)
-                sample_count = len(probs_times_under_attack)
-                mean_attack_res_time = mean(probs_times_under_attack)
-                avg_attack_res_time = sum(probs_times_under_attack) / sample_count
-                per95_attack_res_time = np.percentile(np.array(probs_times_under_attack), 95)
-                per90_attack_res_time = np.percentile(np.array(probs_times_under_attack), 90)
-                threshold = latest_attack_index+1000
-                hard_reset_trigger = index > threshold
-                if (index > 120 and cpu_load <= 56 and nodes_count > 2):
-                    is_running_attack = False
-                    if attack_process:
-                        try:
-                            print("killing attack process")
-                            attack_process.kill()
-                            attack_process = None
-                        except Exception as e:
-                            print("kill attack fail - {}".format(e))
+                # TODO  -re authenticate
+                print('error trying to authenticate - {}'.format(e))
+                p = subprocess.Popen(['kubectl', 'get', 'hpa'],
+                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                print('BEFPRE p wait')
+                p.wait()
+                print('ACFTER p wait')
+                autoscale_api_instance, cluster_api = authenticate()
+                api_response = autoscale_api_instance.read_namespaced_horizontal_pod_autoscaler(name, namespace,
+                                                                                                pretty=True)
+                nodes_count = len(list(cluster_api.list_node().items))
+                active_pods_count = len(
+                    [pod for pod in cluster_api.list_pod_for_all_namespaces(label_selector='app=service-a').items
+                     if pod.status.phase == 'Running'])
 
+            status = api_response.status
+            current_pods_count = status.current_replicas
+            desire_pod_count = status.desired_replicas
+            cpu_load = status.current_cpu_utilization_percentage
+            last_scale_time = status.last_scale_time
+            print('Done Updating cluster info - {}\nactive: {}'.format(status, active_pods_count))
 
-            else:
-                # Resting avg
-                avg_attack_res_time = 0
-                mean_attack_res_time = 0
-                per95_attack_res_time = 0
-                per90_attack_res_time = 0
-                probs_times_under_attack = []
-                # Handle no in attack logic - should we init one?
-                # Check pod number od res time
-                print('We Are at peace checking if we should start the attack on titan!')
-                print('Latest attack index - {}'.format(latest_attack_index))
-                if index == 50:  # first attack!
-                    is_running_attack = True
-                    print('init first attack')
-                    latest_attack_index = index
-                    attack_process = start_on_attack_phase()
-                # latest_attack_index
-                # We need to send a small burst of an attack and check for res_time > 2
-                # This is a hack - please use prob above- just need to parse the output of the stdout
-                if nodes_count == 3 and index > 50:
-                    is_running_attack = True
-                    latest_attack_index = index
-                    print('init attack by POD COUNT on index = {}'.format(index))
-                    attack_process = start_on_attack_phase()
+        # Get avarage time of the last x res and see if attack
+        probe_time_tupples.append(res_time)
 
-            if index % 9 == 0:
-                name = 'service-a-autoscaler'
-                namespace = 'default'
-                try:
-                    print('Updating cluster info')
-                    api_response = autoscale_api_instance.read_namespaced_horizontal_pod_autoscaler(name, namespace,
-                                                                                                    pretty=True)
-                    nodes_count = len(list(cluster_api.list_node().items))
-                    active_pods_count = len(
-                        [pod for pod in cluster_api.list_pod_for_all_namespaces(label_selector='app=service-a').items
-                         if pod.status.phase == 'Running'])
-                except Exception as e:
-                    # TODO  -re authenticate
-                    print('error trying to authenticate - {}'.format(e))
-                    p = subprocess.Popen(['kubectl', 'get', 'hpa'],
-                                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                    print('BEFPRE p wait')
-                    p.wait()
-                    print('ACFTER p wait')
-                    autoscale_api_instance, cluster_api = authenticate()
-                    api_response = autoscale_api_instance.read_namespaced_horizontal_pod_autoscaler(name, namespace,
-                                                                                                    pretty=True)
-                    nodes_count = len(list(cluster_api.list_node().items))
-                    active_pods_count = len(
-                        [pod for pod in cluster_api.list_pod_for_all_namespaces(label_selector='app=service-a').items
-                         if pod.status.phase == 'Running'])
-
-                status = api_response.status
-                current_pods_count = status.current_replicas
-                desire_pod_count = status.desired_replicas
-                cpu_load = status.current_cpu_utilization_percentage
-                last_scale_time = status.last_scale_time
-                print('Done Updating cluster info - {}\nactive: {}'.format(status, active_pods_count))
-
-            # Get avarage time of the last x res and see if attack
-            probe_time_tupples.append(res_time)
-
-            headers = [
-                    'time',
-                    'current response time',
-                    # Under attack
-                    'avg response time under attack',
-                    'mean response time under attack',
-                    '95th percentile under attack response time',
-                    '90th percentile under attack response time',
-                    # Total
-                    'probe packet avg response time',
-                    'probe packet mean response time',
-                    'probe packet 95th percentile response time',
-                    'probe packet 90th percentile response time',
-                    # HPA info
-                    'current_pods_count',
-                    'active_pods_count',
-                    'desire_pod_count',
-                    'cpu_load',
-                    'node_count',
-                    'current_power_off_attack',
-                    #
-                    'is running attach'
-
-                ]
-
-            stats = [
-                index,  # time
-                min(round(res_time, 1), 5),  # probe response time - flatten weird results
-                # Attack
-                avg_attack_res_time,
-                mean_attack_res_time,
-                per95_attack_res_time,
-                per90_attack_res_time,
-                # probe
-                (sum(probe_time_tupples) / len(probe_time_tupples)),  # total avg res time
-                mean(probe_time_tupples),  # total mea res time
-                np.percentile(np.array(probe_time_tupples), 90),
-                np.percentile(np.array(probe_time_tupples), 95),
-                # HPA INFO
-                current_pods_count,
-                active_pods_count,
-                desire_pod_count,
-                cpu_load,  # Normalize
-                nodes_count,
-                (CONFIG['k']),
-                # is
-                int(is_running_attack),  # Nonmalize
+        headers = [
+                'time',
+                'current response time',
+                # Under attack
+                'avg response time under attack',
+                'mean response time under attack',
+                '95th percentile under attack response time',
+                '90th percentile under attack response time',
+                # Total
+                'probe packet avg response time',
+                'probe packet mean response time',
+                'probe packet 95th percentile response time',
+                'probe packet 90th percentile response time',
+                # HPA info
+                'current_pods_count',
+                'active_pods_count',
+                'desire_pod_count',
+                'cpu_load',
+                'node_count',
+                'current_power_off_attack',
                 #
-                last_scale_time
+                'is running attach'
+
             ]
-            if index == 0: # Add headers
-                w.writerow(headers)
 
-            w.writerow(stats)
+        stats = [
+            index,  # time
+            min(round(res_time, 1), 5),  # probe response time - flatten weird results
+            # Attack
+            avg_attack_res_time,
+            mean_attack_res_time,
+            per95_attack_res_time,
+            per90_attack_res_time,
+            # probe
+            (sum(probe_time_tupples) / len(probe_time_tupples)),  # total avg res time
+            mean(probe_time_tupples),  # total mea res time
+            np.percentile(np.array(probe_time_tupples), 90),
+            np.percentile(np.array(probe_time_tupples), 95),
+            # HPA INFO
+            current_pods_count,
+            active_pods_count,
+            desire_pod_count,
+            cpu_load,  # Normalize
+            nodes_count,
+            (CONFIG['k']),
+            # is
+            int(is_running_attack),  # Nonmalize
+            #
+            last_scale_time
+        ]
 
-            print(dict(zip(headers, stats)))
+        print(dict(zip(headers, stats)))
 
 
 
