@@ -34,7 +34,7 @@ CONFIG = {
     'scaled_attack': False,  # A new options - aas noticed in experiments
     'r': 5,  # Average requests rate per unit time of legitimate clients
     'k': 20,  # power of attack
-    'n': 20,  # Number of attack cycles - Should be dynamic counter every on attack
+    'n': 5,  # Number of attack cycles - Should be dynamic counter every on attack
     'T': 1800,  # Cycle duration in seconds
     't_on': 600,
     # int, Time of on-attack phase in seconds, should be dynamic - we should be dynamic by the is_running_attack flag
