@@ -51,8 +51,8 @@ CONFIG = {
     # int, Time of on-attack phase in seconds, should be dynamic - we should be dynamic by the is_running_attack flag
     't_off': 1200,  # int, Time of off-attack phase in seconds - count dynamically
     'i_up': 60,  # int, Threshold interval for scale-up in seconds. - NOT CONTROLED IN KUBERNETES
-    'i_down': 300,  # int, Threshold interval for scale-down in seconds. - NOT CONTROLED IN KUBERNETES
-    'w_up': 120 , #
+    'i_down': 600,  # int, Threshold interval for scale-down in seconds. - NOT CONTROLED IN KUBERNETES
+    'w_up': 0 , #
     'ragular_load': 'jmeter_test_cases/yoyo/regulat_load.jmx',
     'attack_load': 'jmeter_test_cases/yoyo/attack_load.jmx',
 }
