@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
     name: service-a
 spec:
-    replicas: 3
+    replicas: 1
     selector:
         matchLabels:
             app: service-a
@@ -21,7 +21,7 @@ spec:
               - name: RETURN_VALUE
                 value: "service-a"
               - name: DEPENDENCIES
-                value: '{"destinations":[{"target":"http://service-b-svc.default.svc.cluster.local/load","request_payload_kb_size":50,"config":{"memory_params":{"duration_seconds":0.2,"kb_count":50},"cpu_params":{"duration_seconds":0.001,"load":0.9}}},{"target":"http://service-c-svc.default.svc.cluster.local/load","request_payload_kb_size":50,"config":{"memory_params":{"duration_seconds":0.2,"kb_count":50},"cpu_params":{"duration_seconds":0.001,"load":0.9}}}]}'
+                value: '{"destinations":[{"target":"http://service-b-svc.default.svc.cluster.local/load","request_payload_kb_size":50,"config":{"memory_params":{"duration_seconds":0.2,"kb_count":50},"cpu_params":{"duration_seconds":0.2,"load":0.2}}},{"target":"http://service-c-svc.default.svc.cluster.local/load","request_payload_kb_size":50,"config":{"memory_params":{"duration_seconds":0.2,"kb_count":50},"cpu_params":{"duration_seconds":0.2,"load":0.2}}}]}'
               ports:
               - name: http-port
                 containerPort: 8081
