@@ -50,6 +50,6 @@ current-context: gke_independent-bay-250811_us-central1-a_microsvc-us
 
 ## 3) now you should be able to run the script
 ```
-python3 yoyo_attaker_flow.py
+python3 yoyo_attack.py
 ```
 
