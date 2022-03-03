@@ -57,8 +57,8 @@ def jmeter_command(test_case):
 @limits(calls=1, period=1)
 def send_probe(url):
     data = {}
-    data["memory_params"] = {"duration_seconds": 0.2, "kb_count":50}
-    data["cpu_params"] = {"load" : 0.9, "duration_seconds": 0.001}
+#     data["memory_params"] = {"duration_seconds": 0.2, "kb_count":50}
+#     data["cpu_params"] = {"load" : 0.9, "duration_seconds": 0.001}
     params = json.dumps(data)
     headers = {"Content-Type" : "application/json"}
     response = requests.post(url,headers=headers,data=params)
