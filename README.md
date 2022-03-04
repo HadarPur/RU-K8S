@@ -73,6 +73,7 @@ Starting from 3 nodes, 1 pod per service.
 Regular flow contains user_count = 4 which is Total number of users to start with spawn_rate = 10 which is the number of users to spawn per second.
 Attacker flow contains user_count = 24 which is Total number of users to start with spawn_rate = 1 which is the number of users to spawn per second.
 
+### Results
 #### CPU Utilization vs Response time (All services)
 <p align="center">
   <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.16.21.png" alt="drawing" width="700"/>
@@ -98,8 +99,26 @@ Attacker flow contains user_count = 24 which is Total number of users to start w
   <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.17.15.png" alt="drawing" width="700"/>
 </p>
 
+### Experiment #2 with Istio
+### Results
+
+## Conclusions and Future work
+### Conclusions
+### Future work
+* First of all we can try and test our experiment on different clouds, in the original article it is AWS based, while ours is GCP based so we can recommend our next subject of experiment to be tested on Azure.
+* Second, would be optimizing the attack - whether by trying to find the best hyperparameters, or maybe even by reconstructing the attack from scratch with new futuristic technologies.
+* Lastly, we would recommend on a better distribution of the load-forwarding to a smarter one and by doing it we could test the efficiency and correctness of this attack.
 
 
-
-
+## Bibliography
+* https://kubernetes.io
+* DDoS attack on cloud auto-scaling mechanisms - https://ieeexplore.ieee.org/abstract/document/8057010?casa_token=GaTR6Nr4W2EAAAAA:EjkVSELqh43O2MxwAy-3AYaZmqIoee-oVzjcVOCgD9ut29K1bd5WMFD7c-LO4ZtPKAmoiLRkcn2_
+* https://hakin9.org/kubernetes-ddos-dangers-of-k8s-auto-scaling/ 
+* Kubernetes Auto-Scaling: YoYo attack vulnerability and mitigation - https://arxiv.org/abs/2105.00542
+* https://cloud.google.com/
+* Sample project of DDoS attack on Kubernetes - https://github.com/danibachar/Kubernetes
+* Scripts, Makefile, AAPI explanation and Deployments YAMLs ready to use - https://github.com/danibachar/kube-multi-cluster-managment/tree/main/koss-application-testing
+* https://prometheus.io/docs/prometheus/latest/getting_started/
+* https://github.com/olxbr/metrics-server-exporter
+* https://github.com/rycus86/prometheus_flask_exporter
 
