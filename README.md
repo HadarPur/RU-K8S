@@ -46,4 +46,6 @@ Istio is a service mesh—a modernized service networking layer that provides a 
 Istio service mesh also supports how those microservices communicate and share data with one another.
 
 ## Chosen Topology:
-
+<p align="center">
+  <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/k8s/topology.png" alt="drawing" width="700"/>
+</p>
