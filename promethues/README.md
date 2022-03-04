@@ -104,28 +104,7 @@ kubectl apply -f service metrics-server-exporter -n kube-system -o yaml
 ```
 
 6) Install prometheus-flask-exporter:
-```
-pip install prometheus-flask-exporter
-```
-7) Create a service monitor to eche service, for example:
-```
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: service-a
-  namespace: default
-spec:
-  endpoints:
-    - interval: 30s
-      port: metrics
-  namespaceSelector:
-    matchNames:
-      - default
-  selector:
-    matchLabels:
-      app: service-a
-```
-And change the port name in service a to metrics.
+
 
 8) Add to app.py the code necessary, examples can be found here: https://github.com/rycus86/prometheus_flask_exporter
 9) Run:
