@@ -38,9 +38,9 @@ monitoring        		Active   		8d
 
 Run ```kubectl get pod -n istio-system``` to see the active pods:
 ```
-NAME                                    					READY   	STATUS    RESTARTS      AGE
-istio-ingressgateway-7997ddf9d8-tn5zz  	          1/1     	Running   	0          	87s
-istiod-6cf87bf5d-xcx9s                 			      1/1    	  Running   	0          	104s
+NAME                                              READY   	STATUS    RESTARTS      AGE
+istio-ingressgateway-7997ddf9d8-tn5zz             1/1     	Running   	0          	87s
+istiod-6cf87bf5d-xcx9s                            1/1    	  Running   	0          	104s
 ```
 
 Run:
