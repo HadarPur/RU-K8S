@@ -77,6 +77,7 @@ Attacker flow contains user_count = 24 which is Total number of users to start w
 <p align="center">
   <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.16.21.png" alt="drawing" width="700"/>
 </p>
+
 #### CPU Utilization vs Response time (Per service)
 <p align="center">
   <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.17.41.png" alt="drawing" width="500"/>
@@ -86,10 +87,12 @@ Attacker flow contains user_count = 24 which is Total number of users to start w
   <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.18.17.png" alt="drawing" width="500"/>
     <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.18.33.png" alt="drawing" width="500"/>
 </p>
+
 #### Pods vs Nodes
 <p align="center">
   <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.16.51.png" alt="drawing" width="700"/>
 </p>
+
 #### Power vs time
 <p align="center">
   <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.17.15.png" alt="drawing" width="700"/>
