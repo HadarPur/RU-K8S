@@ -5,10 +5,12 @@ Submitted as final project for the Advanced Topics In IP Networks course, Reichm
 
 ## Introduction
 DDoS is an old attack pattern, and there are well-known solutions for protecting against DDoS attacks. However, in a cloud-native world, applications behave differently, and attackers are finding ways to exploit this behavior.
+
 In this work, we will demonstrate the YoYo attack - a burst attack which deliberately targets auto scaling of VMs in cloud platforms.
 This work is based on a research that was made in the Past by Mr. Ronen Ben David and ours truly Anat Bremler-Barr.
 * We used gcp environment with k8s to build the clusters, nodes, podes and services from scratch, integrated with Istio as a victim.
 * We used a VM with Ubuntu OS, based on Daniel’s attack to make sure we will continue that same work as an attacker.
+
 To visualize the attack, we used Grafana with Prometheus queries.
 
 ## Auto scaling in Google Cloud Platform
@@ -17,16 +19,19 @@ Google Cloud Platform (GCP), offered by Google, is a suite of cloud computing se
 
 ### Auto scaling
 Auto-scaling is a cloud computing service feature that automatically adds or removes compute resources depending upon actual usage. Each cloud solution comes with its own auto-scaling engine: Heat in Openstack, autoscaler in Google Cloud, Azure Autoscale in Microsoft Azure and auto-scaling in Amazon Elastic Compute Cloud (Amazon EC2). 
+
 In each of these systems the underlying algorithm lets the cloud customer, referred to in our work as the user, to define a scaling criterion and the corresponding thresholds for overload and underload. 
 
 ### Auto scaling - GCP
 Google cloud scaling is always adaptive. 
 The user sets the target criterion value, e.g., target CPU utilization of 75%, and the autoscaler makes scaling decisions proportionally and maintains that level without the user having to set rules. 
+
 It is assumed that Google uses a machine learning algorithm for the adaptive scaling.
 
 ## Let’s talk Kubernetes	
 ### What is Kubernetes?	
 Kubernetes is a portable, extensible, open-source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.
+
 The name Kubernetes originates from Greek, meaning helmsman or pilot. K8s as an abbreviation results from counting the eight letters between the "K" and the "s".
 
 ### Why k8s?
@@ -43,6 +48,7 @@ Kubernetes supports the following autoscaling types:
 ## Istio
 ### What is Istio?
 Istio is a service mesh—a modernized service networking layer that provides a transparent and language-independent way to flexibly and easily automate application network functions. It is a popular solution for managing the different microservices that make up a cloud-native application. 
+
 Istio service mesh also supports how those microservices communicate and share data with one another.
 
 ## Chosen Topology
@@ -53,9 +59,13 @@ Istio service mesh also supports how those microservices communicate and share d
 ## We’re under Attack
 ### DDoS Attacks
 DDoS attack is when an attacker/s attempt to make it impossible for a service to be delivered.
+
 This can be achieved by preventing access to virtually anything: servers, devices, services, networks, applications, and even specific transactions within applications. 
+
 Generally, these attacks work by drowning a system with requests for data. This could be sending a web server so many requests to serve a page that it crashes under the demand, or it could be a database being hit with a high volume of queries. 
+
 The result is that available internet bandwidth, CPU and RAM capacity becomes overwhelmed.
+
 The impact could range from a minor annoyance from disrupted services to experiencing entire websites, applications, or even entire business taken offline.
 
 ### YoYo Attack
@@ -70,7 +80,9 @@ And so on.
 For our research we knew that we should show only the istio experiment, but we thought that by adding the “before” results could be a value of comparison and shed some more light regarding this project.
 
 Starting from 3 nodes, 1 pod per service.
+
 Regular flow contains user_count = 4 which is Total number of users to start with spawn_rate = 10 which is the number of users to spawn per second.
+
 Attacker flow contains user_count = 24 which is Total number of users to start with spawn_rate = 1 which is the number of users to spawn per second.
 
 ### Results
