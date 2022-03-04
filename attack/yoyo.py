@@ -99,7 +99,7 @@ class YoYo(object):
             
             stats = self.get_stats()
 
-            HEADERS = ['response_time', 'active_pods_count', 'cpu_load', 'current_power_of_attack']
+            HEADERS = ['response_time', 'active_pods_count', 'cpu', 'power']
             logging.info(dict(zip(HEADERS, stats)))
 
     @property
