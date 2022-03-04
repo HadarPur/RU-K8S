@@ -25,19 +25,8 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm upgrade --install monitoring bitnami/kube-prometheus -n monitoring --create-namespace --set alertmanager.enabled=false,prometheus.persistence.enabled=true,prometheus.service.type=LoadBalancer,prometheus.resources.requests.cpu=30m,prometheus.resources.requests.memory=512Mi,exporters.node-exporter.enabled=false,kubelet.enabled=false,kubeApiServer.enabled=false,kubeControllerManager.enabled=false,kubeScheduler.enabled=false,coreDns.enabled=false,kubeProxy.enabled=false
 
 ```
-
+5) Install metrics-server-exporter: https://github.com/HadarPur/RU-K8S-FinalProject/tree/master/promethues/metrics-server-exporter
 6) Install prometheus-flask-exporter: https://github.com/HadarPur/RU-K8S-FinalProject/tree/master/promethues/prometheus-flask-exporter
-7) Add to app.py the code necessary, examples can be found here: https://github.com/rycus86/prometheus_flask_exporter
-8) Run:
-```
-cd k8s make build
-```
-```
-cd k8s make deploy-services
-```
-```
-kubectl apply -f prometheus/service-monitors-exporter/
-```
 
 9) Install Istio: https://github.com/HadarPur/RU-K8S-FinalProject/tree/master/promethues/istio
 
