@@ -10,8 +10,8 @@ from typing import List, Union
 import logging
 import gevent.monkey
 
-from attackerFlow import AttackerFlow
-from regularFlow import RegularFlow
+from .attackerFlow import AttackerFlow
+from .regularFlow import RegularFlow
 
 gevent.monkey.patch_all()
 
