@@ -10,3 +10,4 @@ kubernetes==22.6.0
 numpy==1.17.4
 gevent==21.12.0
 pyfiglet==0.8.post1
+python-dateutil~=2.8.2
