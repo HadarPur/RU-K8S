@@ -76,14 +76,22 @@ In the Yo-Yo attack the attacker oscillates between the on-attack phase and the 
 And so on.
 
 ## Experiments Results
-### Experiment #1 without Istio
+### Experiments
 For our research we knew that we should show only the istio experiment, but we thought that by adding the “before” results could be a value of comparison and shed some more light regarding this project.
 
-Starting from 3 nodes, 1 pod per service.
+Data:
+* user count - which is Total number of users to start.
+* spawn rate - which is the number of users to spawn per second.
 
-Regular flow contains user_count = 4 which is Total number of users to start with spawn_rate = 10 which is the number of users to spawn per second.
+### Experiment #1 without Istio
+Starting from:
+* 3 nodes
+* 1 pod per service.
 
-Attacker flow contains user_count = 24 which is Total number of users to start with spawn_rate = 1 which is the number of users to spawn per second.
+
+Regular flow contains user_count = 4 and spawn_rate = 10.
+
+Attacker flow contains user_count = 24 and spawn_rate = 1.
 
 ### Results
 #### CPU Utilization vs Response time (All services)
