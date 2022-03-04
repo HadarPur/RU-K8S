@@ -37,5 +37,5 @@ cd k8s make build
 cd k8s make deploy-services
 ```
 ```
-kubectl apply -f prometheus/service-monitors-exporter/
+kubectl apply -f prometheus/prometheus-flask-exporter/service-monitors-exporter/
 ```
