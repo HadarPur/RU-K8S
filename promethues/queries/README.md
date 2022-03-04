@@ -35,5 +35,5 @@ sum(kube_node_status_condition{condition="Ready", status="true"})
 
 Power:
 ```
-sum(increase(flask_http_request_total{method="POST", status="200"}[30m]))
+sum(increase(flask_http_request_total{method="POST"}[1m]))
 ```
