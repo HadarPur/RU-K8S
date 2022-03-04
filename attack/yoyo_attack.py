@@ -1,9 +1,8 @@
-import numpy as np
-import os
-import logging
+from locust.log import setup_logging
+from yoyo import YoYo
 import pyfiglet
-  
-title = pyfiglet.figlet_format("DDOS YoYo Attack", font = "digital" )
+
+title = pyfiglet.figlet_format("DDOS YoYo Attack", font="bulbhead")
 
 TARGET_AUTOSCALERS = ['service-a-autoscaler','service-b-autoscaler','service-c-autoscaler','service-d-autoscaler']
 TARGET_SERVICES = ['service-a','service-b','service-c','service-d']
