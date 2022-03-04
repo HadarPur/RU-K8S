@@ -1,25 +1,20 @@
-import json
 from ratelimit import limits, sleep_and_retry
-from locust.log import setup_logging
-from locust.env import Environment
 from locust.runners import STATE_SPAWNING, STATE_RUNNING, STATE_CLEANUP
-from locust import HttpUser, between, task, User
+from locust import HttpUser, between, task
 from kubernetes import client, config
 import requests
-import numpy as np
-import csv
 import datetime
 from dateutil.tz import tzutc
-import os
 import time
-from statistics import mean
-from typing import List, Tuple, Type, Union
+from typing import List, Union
 import logging
-import gevent
 import gevent.monkey
+
+from attackerFlow import AttackerFlow
+from regularFlow import RegularFlow
+
 gevent.monkey.patch_all()
 
-HEADERS = ['response_time','active_pods_count','cpu_load','current_power_of_attack']
 
 class YoYo(object):
     def __init__(self, autoscalers: List[str],services:List[str]) -> None:
@@ -103,6 +98,8 @@ class YoYo(object):
             self.response_time_loop()
             
             stats = self.get_stats()
+
+            HEADERS = ['response_time', 'active_pods_count', 'cpu_load', 'current_power_of_attack']
             logging.info(dict(zip(HEADERS, stats)))
 
     @property
@@ -160,7 +157,6 @@ class YoYo(object):
             self.reg.count + (self.attack.count if self.is_attacking else 0)
         ]
         return stats
-
 
     def stop(self) -> None:
         self.attack.stop()
