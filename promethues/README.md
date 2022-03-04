@@ -27,14 +27,11 @@ helm upgrade --install monitoring bitnami/kube-prometheus -n monitoring --create
 ```
 4) Install metrics-server-exporter: https://github.com/HadarPur/RU-K8S-FinalProject/tree/master/promethues/metrics-server-exporter
 5) Install prometheus-flask-exporter: https://github.com/HadarPur/RU-K8S-FinalProject/tree/master/promethues/prometheus-flask-exporter
-
-6) Install Istio: https://github.com/HadarPur/RU-K8S-FinalProject/tree/master/promethues/istio
-
-7) Export the ip for prometheus:
+6) Export the ip for prometheus:
 ```
 export SERVICE_IP=$(kubectl get svc --namespace monitoring monitoring-kube-prometheus-prometheus --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
 ```
-8) Get prometheus url:
+7) Get prometheus url:
 ```
 echo "Prometheus URL: http://$SERVICE_IP:9090/"
 ```
