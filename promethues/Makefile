@@ -17,8 +17,8 @@
 ##############################################
 cleanup-services: delete-services-monitors
 
-deploy-service-monitors:
+deploy-services:
 	kubectl apply -f prometheus-flask-exporter/service-monitors-exporter/
 
-delete-services-monitors:
+delete-services:
 	kubectl delete -f prometheus-flask-exporter/service-monitors-exporter/
