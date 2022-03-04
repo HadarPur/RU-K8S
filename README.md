@@ -45,7 +45,58 @@ Kubernetes supports the following autoscaling types:
 Istio is a service mesh—a modernized service networking layer that provides a transparent and language-independent way to flexibly and easily automate application network functions. It is a popular solution for managing the different microservices that make up a cloud-native application. 
 Istio service mesh also supports how those microservices communicate and share data with one another.
 
-## Chosen Topology:
+## Chosen Topology
 <p align="center">
   <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/k8s/topology.png" alt="drawing" width="700"/>
 </p>
+
+## We’re under Attack
+### DDoS Attacks
+DDoS attack is when an attacker/s attempt to make it impossible for a service to be delivered.
+This can be achieved by preventing access to virtually anything: servers, devices, services, networks, applications, and even specific transactions within applications. 
+Generally, these attacks work by drowning a system with requests for data. This could be sending a web server so many requests to serve a page that it crashes under the demand, or it could be a database being hit with a high volume of queries. 
+The result is that available internet bandwidth, CPU and RAM capacity becomes overwhelmed.
+The impact could range from a minor annoyance from disrupted services to experiencing entire websites, applications, or even entire business taken offline.
+
+### YoYo Attack
+In the Yo-Yo attack the attacker oscillates between the on-attack phase and the off-attack phase. 
+* In the on-attack phase, the attacker sends a burst of traffic that causes the auto-scaling mechanism to perform a scale up. 
+* In the off-attack phase, the attacker stops sending the excess traffic. This second phase takes place when the attacker identifies that the scale up has occurred (all machines are up and the service is fully functional) and continues until the attacker determines that scale down has occurred. 
+
+And so on.
+
+## Experiments Results
+### Experiment #1 without Istio
+For our research we knew that we should show only the istio experiment, but we thought that by adding the “before” results could be a value of comparison and shed some more light regarding this project.
+
+Starting from 3 nodes, 1 pod per service.
+Regular flow contains user_count = 4 which is Total number of users to start with spawn_rate = 10 which is the number of users to spawn per second.
+Attacker flow contains user_count = 24 which is Total number of users to start with spawn_rate = 1 which is the number of users to spawn per second.
+
+#### CPU Utilization vs Response time (All services)
+<p align="center">
+  <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.16.21.png" alt="drawing" width="700"/>
+</p>
+#### CPU Utilization vs Response time (Per service)
+<p align="center">
+  <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.17.41.png" alt="drawing" width="500"/>
+    <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.17.56.png" alt="drawing" width="500"/>
+</p>
+<p align="center">
+  <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.18.17.png" alt="drawing" width="500"/>
+    <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.18.33.png" alt="drawing" width="500"/>
+</p>
+#### Pods vs Nodes
+<p align="center">
+  <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.16.51.png" alt="drawing" width="700"/>
+</p>
+#### Power vs time
+<p align="center">
+  <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.17.15.png" alt="drawing" width="700"/>
+</p>
+
+
+
+
+
+
