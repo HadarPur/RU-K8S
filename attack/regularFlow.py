@@ -1,7 +1,7 @@
-from locust.log import setup_logging
+from typing import Type
 from locust.env import Environment
-from locust.runners import STATE_SPAWNING, STATE_RUNNING, STATE_CLEANUP
-from locust import HttpUser, between, task, User
+from locust import User
+
 
 class RegularFlow(object):
     def __init__(self, user: Type[User], count: int, spawn_rate: int) -> None:
