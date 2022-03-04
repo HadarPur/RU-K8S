@@ -1,5 +1,5 @@
 from locust.log import setup_logging
-from yoyo import YoYo
+from .yoyo import YoYo
 import pyfiglet
 
 title = pyfiglet.figlet_format("DDOS YoYo Attack", font="bulbhead")
