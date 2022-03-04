@@ -138,14 +138,14 @@ cd k8s make deploy-services
 ```
 kubectl apply -f prometheus/service-monitors-exporter/
 ```
-11) Export the ip for prometheus:
+10) Export the ip for prometheus:
 ```
 export SERVICE_IP=$(kubectl get svc --namespace monitoring monitoring-kube-prometheus-prometheus --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
 ```
-8) Get prometheus url:
+11) Get prometheus url:
 ```
 echo "Prometheus URL: http://$SERVICE_IP:9090/"
 ```
 
-9) Install Istio: https://github.com/HadarPur/RU-K8S-FinalProject/tree/master/promethues/istio
+12) Install Istio: https://github.com/HadarPur/RU-K8S-FinalProject/tree/master/promethues/istio
 
