@@ -25,3 +25,17 @@ spec:
       app: service-a
 ```
 And change the port name in service a to metrics.
+
+## App.py
+Add to app.py the code necessary, examples can be found here: https://github.com/rycus86/prometheus_flask_exporter
+
+Run:
+```
+cd k8s make build
+```
+```
+cd k8s make deploy-services
+```
+```
+kubectl apply -f prometheus/service-monitors-exporter/
+```
