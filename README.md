@@ -101,7 +101,7 @@ Starting from:
 
 Regular flow contains user count 4 and spawn rate 10.
 
-Attacker flow contains user count = 24 and spawn rate 1.
+Attacker flow contains user count 24 and spawn rate 1.
 
 In the attack we are waiting that the number of pods will be over 10(which means ~=*3 from the initial state)
 
@@ -138,7 +138,7 @@ Starting from:
 
 Regular flow contains user count 4 and spawn rate 10.
 
-Attacker flow contains user count = 24 and spawn rate 1.
+Attacker flow contains user count 24 and spawn rate 1.
 
 In the attack we are waiting that the number of pods will be over 10(which means ~=*3 from the initial state)
 
