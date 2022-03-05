@@ -25,7 +25,7 @@ To visualize the attack, we used Grafana with Prometheus queries.
 
 ## Auto scaling in Google Cloud Platform
 ### Google Cloud
-Google Cloud Platform (GCP), offered by Google, is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products, such as Google Search, Gmail, Google Drive, and YouTube. Alongside a set of management tools, it provides a series of modular cloud services including computing, data storage, data analytics and machine learning.
+Google Cloud Platform (GCP), offered by Google, is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its own end-user products, such as Google Search, Gmail, Google Drive and YouTube. Alongside a set of management tools, it provides a series of modular cloud services including computing, data storage, data analytics and machine learning.
 
 ### Auto scaling
 Auto-scaling is a cloud computing service feature that automatically adds or removes compute resources depending upon actual usage. Each cloud solution comes with its own auto-scaling engine: Heat in Openstack, autoscaler in Google Cloud, Azure Autoscale in Microsoft Azure and auto-scaling in Amazon Elastic Compute Cloud (Amazon EC2). 
@@ -40,17 +40,16 @@ It is assumed that Google uses a machine learning algorithm for the adaptive sca
 
 ## Let’s talk Kubernetes	
 ### What is Kubernetes?	
-Kubernetes is a portable, extensible, open-source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.
+Kubernetes is a portable, extensible, open-source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support and tools are widely available.
 
 The name Kubernetes originates from Greek, meaning helmsman or pilot. K8s as an abbreviation results from counting the eight letters between the "K" and the "s".
 
 ### Why k8s?
 Containers are a good way to bundle and run your applications. In a production environment, you need to manage the containers that run the applications and ensure that there is no downtime. For example, if a container goes down, another container needs to start. Wouldn't it be easier if this behavior was handled by a system?
-That's how Kubernetes comes to the rescue! Kubernetes provides you with a framework to run distributed systems resiliently. It takes care of scaling and failover for your application, provides deployment patterns, and more. 
+That's how Kubernetes comes to the rescue! Kubernetes provides you with a framework to run distributed systems resiliently. It takes care of scaling and failover for your application, provides deployment patterns and more. 
 
 ### Auto Scaling - K8S 
-Kubernetes is designed for scalability, providing many features that enable applications and the host infrastructure to scale in and out. You can specify metrics that influence automated scaling (autoscaling) processes, including demand and efficiency.
-Kubernetes supports the following autoscaling types:
+Kubernetes is also designed for scalability, providing many features that enable applications and the host infrastructure to scale in and out. You can specify metrics that influence automated scaling (autoscaling) processes, including demand and efficiency.
 * Vertical pod autoscaler (VPA) - automatically decreases or increases the resource limits on a certain pod.
 * Horizontal pod autoscaler (HPA) - automatically decreases or increases the number of pod instances.
 * Cluster autoscaler (CA) - automatically decreases or increases the number of nodes within a certain node pool according to pod scheduling.
@@ -59,7 +58,7 @@ Kubernetes supports the following autoscaling types:
 ### What is Istio?
 Istio is a service mesh—a modernized service networking layer that provides a transparent and language-independent way to flexibly and easily automate application network functions. It is a popular solution for managing the different microservices that make up a cloud-native application. 
 
-Istio service mesh also supports how those microservices communicate and share data with one another.
+Istio service mesh also supports how those microservices communicate and share data with one another and widely used in the industry.
 
 ## Chosen Topology
 <p align="center">
@@ -68,9 +67,9 @@ Istio service mesh also supports how those microservices communicate and share d
 
 ## We’re under Attack
 ### DDoS Attacks
-DDoS attack is when an attacker/s attempt to make it impossible for a service to be delivered.
+DDoS attack is when an attacker/s attempt to make it impossible for a service to be responsive.
 
-This can be achieved by preventing access to virtually anything: servers, devices, services, networks, applications, and even specific transactions within applications. 
+This can be achieved by preventing access to virtually anything: servers, devices, services, networks, applications and even specific transactions within applications. 
 
 Generally, these attacks work by drowning a system with requests for data. This could be sending a web server so many requests to serve a page that it crashes under the demand, or it could be a database being hit with a high volume of queries. 
 
@@ -89,8 +88,13 @@ And so on.
 ### Experiments
 For our research we knew that we should show only the istio experiment, but we thought that by adding the “before” results could be a value of comparison and shed some more light regarding this project.
 
-Data:
-* user count - which is Total number of users to start.
+Locust is an easy to use, scriptable and scalable performance testing tool. You define the behaviour of your users in regular Python code, instead of being stuck in a UI or restrictive domain specific language.
+
+We used Locust for load testing because in comparison with JMeter, Locust monitoring doesn’t take up so many of your machines’ resources.
+
+
+Parameters:
+* user count - is Total number of users to start.
 * spawn rate - which is the number of users to spawn per second.
 
 ### Experiment #1 without Istio
@@ -99,9 +103,9 @@ Starting from:
 * 1 pod per service.
 
 
-Regular flow contains user count 4 and spawn rate 10.
+Regular flow contains user count = 4 and spawn rate = 10.
 
-Attacker flow contains user count 24 and spawn rate 1.
+Attacker flow contains user count = 24 and spawn rate = 1.
 
 In the attack we are waiting that the number of pods will be over 10(which means ~=*3 from the initial state)
 
@@ -126,9 +130,9 @@ Starting from:
 * 5 nodes(trying to set to 3 as before, but seems the default with istio to be 5) 
 * 1 pod per service, with 2 ready state for each pod due to istio.
 
-Regular flow contains user count 4 and spawn rate 10.
+Regular flow contains user count = 4 and spawn rate = 10.
 
-Attacker flow contains user count 24 and spawn rate 1.
+Attacker flow contains user count = 24 and spawn rate = 1.
 
 In the attack we are waiting that the number of pods will be over 10(which means ~=*3 from the initial state)
 
