@@ -111,16 +111,6 @@ In the attack we are waiting that the number of pods will be over 10(which means
   <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.16.21.png" alt="drawing" width="800"/>
 </p>
 
-<!-- #### CPU Utilization vs Response time (Per service)
-<p align="center">
-  <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.17.41.png" alt="drawing" width="800"/>
-    <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.17.56.png" alt="drawing" width="800"/>
-</p>
-<p align="center">
-  <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.18.17.png" alt="drawing" width="800"/>
-    <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.18.33.png" alt="drawing" width="800"/>
-</p> -->
-
 #### Pods vs Nodes
 <p align="center">
   <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-03-20-38-22-18/Screen%20Shot%202022-03-03%20at%2022.16.51.png" alt="drawing" width="800"/>
@@ -173,17 +163,17 @@ In the attack we are waiting that the number of pods will be over 10(which means
 ### Results
 #### CPU Utilization vs Response time (All services)
 <p align="center">
-  <img src="" alt="drawing" width="800"/>
+  <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-05-15-40-17-10-with-istio-4/Screen%20Shot%202022-03-05%20at%2017.09.18.png" alt="drawing" width="800"/>
 </p>
 
 #### Pods vs Nodes
 <p align="center">
-  <img src="" alt="drawing" width="800"/>
+  <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-05-15-40-17-10-with-istio-4/Screen%20Shot%202022-03-05%20at%2017.09.03.png" alt="drawing" width="800"/>
 </p>
 
 #### Power vs time
 <p align="center">
-  <img src="" alt="drawing" width="800"/>
+  <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-05-15-40-17-10-with-istio-4/Screen%20Shot%202022-03-05%20at%2017.08.47.png" alt="drawing" width="800"/>
 </p>
 
 ## Conclusions and Future work
