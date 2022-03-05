@@ -102,6 +102,7 @@ Starting from:
 * 3 nodes
 * 1 pod per service.
 
+The attack:
 
 Regular flow contains user count = 4 and spawn rate = 10.
 
@@ -128,7 +129,9 @@ In the attack we are waiting that the number of pods will be over 10(which means
 ### Experiment #2 with Istio
 Starting from: 
 * 5 nodes(trying to set to 3 as before, but seems the default with istio to be 5) 
-* 1 pod per service, with 2 ready state for each pod due to istio.
+* 1 pod per service.
+
+Same attack:
 
 Regular flow contains user count = 4 and spawn rate = 10.
 
@@ -153,16 +156,32 @@ In the attack we are waiting that the number of pods will be over 10(which means
   <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-04-19-44-21-03-with-istio-1/Screen%20Shot%202022-03-04%20at%2021.02.28.png" alt="drawing" width="800"/>
 </p>
 
+### Experiment #2.1 and #2.2 with Istio
+Starting from: 
+* 5 nodes(trying to set to 3 as before, but seems the default with istio to be 5) 
+* 1 pod per service
+
+Changing the attack:
+|               |   user count  |  spawn rate   |
+| ------------- | ------------- | ------------- |
+| Regular flow  | 8/16          | 10            |
+| Attacker flow | 48/96         | 1             |
+
+In both attacks we are waiting that the number of pods will be over 10(which means ~=*3 from the initial state) - with no luck, the pods go up to 10 and stays the same all over the attack.
+Link to 2.1 graphs - [here](https://github.com/HadarPur/RU-K8S-FinalProject/tree/master/promethues/queries/experiment1-03-05-11-14-11-40-with-istio-2), Link to 2.2 graphs - [here](https://github.com/HadarPur/RU-K8S-FinalProject/tree/master/promethues/queries/experiment1-03-05-13-55-14-20-with-istio-3)
+
 ### Experiment #3 with Istio
 Starting from: 
 * 5 nodes(trying to set to 3 as before, but seems the default with istio to be 5) 
-* 1 pod per service, with 2 ready state for each pod due to istio.
+* 1 pod per service.
 
-Regular flow contains user count 8 and spawn rate 10.
+Changing the attack:
 
-Attacker flow contains user count 48 and spawn rate 1.
+Regular flow contains user count = 4 and spawn rate = 10.
 
-In the attack we are waiting that the number of pods will be over 10(which means ~=*3 from the initial state)
+Attacker flow contains user count = 24 and spawn rate = 1.
+
+In the attack we are waiting that the number of pods will be over 7(which means ~=*2 from the initial state) 
 
 ### Results
 #### CPU Utilization vs Response time (All services)
@@ -182,6 +201,15 @@ In the attack we are waiting that the number of pods will be over 10(which means
 
 ## Conclusions and Future work
 ### Conclusions
+Pros:
++ Istio is providing us with another layer of protection as we can see from the experiments. It’s not as vulnerable as the first experiments (without this mechanism) and more resilient to picks/high loads.
++ Istio provides support in visualisation of the data/state without complex integration of different external tools.
+
+Cons:
+- Consumes more power over time - which may cause higher costs overall.
+- Uses more pods/nodes right from the beginning of the attack, in order to handle extreme scenarios.
+- Increase average response time (even on low-load periods).
+
 ### Future work
 * First of all we can try and test our experiment on different clouds, in the original article it is AWS based, while ours is GCP based so we can recommend our next subject of experiment to be tested on Azure.
 * Second, would be optimizing the attack - whether by trying to find the best hyperparameters, or maybe even by reconstructing the attack from scratch with new futuristic technologies.
@@ -199,4 +227,5 @@ In the attack we are waiting that the number of pods will be over 10(which means
 * https://prometheus.io/docs/prometheus/latest/getting_started/
 * https://github.com/olxbr/metrics-server-exporter
 * https://github.com/rycus86/prometheus_flask_exporter
+* http://docs.locust.io/en/stable/writing-a-locustfile.html
 
