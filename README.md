@@ -99,9 +99,11 @@ Starting from:
 * 1 pod per service.
 
 
-Regular flow contains user_count = 4 and spawn_rate = 10.
+Regular flow contains user count 4 and spawn rate 10.
 
-Attacker flow contains user_count = 24 and spawn_rate = 1.
+Attacker flow contains user count = 24 and spawn rate 1.
+
+In the attack we are waiting that the number of pods will be over 10(which means ~=*3 from the initial state)
 
 ### Results
 #### CPU Utilization vs Response time (All services)
@@ -134,9 +136,11 @@ Starting from:
 * 5 nodes(trying to set to 3 as before, but seems the default with istio to be 5) 
 * 1 pod per service, with 2 ready state for each pod due to istio.
 
-Regular flow contains user_count = 4 and spawn_rate = 10.
+Regular flow contains user count 4 and spawn rate 10.
 
-Attacker flow contains user_count = 24 and spawn_rate = 1.
+Attacker flow contains user count = 24 and spawn rate 1.
+
+In the attack we are waiting that the number of pods will be over 10(which means ~=*3 from the initial state)
 
 ### Results
 
@@ -160,9 +164,11 @@ Starting from:
 * 5 nodes(trying to set to 3 as before, but seems the default with istio to be 5) 
 * 1 pod per service, with 2 ready state for each pod due to istio.
 
-Regular flow contains user_count = 8 and spawn_rate = 10.
+Regular flow contains user count 8 and spawn rate 10.
 
-Attacker flow contains user_count = 48 and spawn_rate = 1.
+Attacker flow contains user count 48 and spawn rate 1.
+
+In the attack we are waiting that the number of pods will be over 10(which means ~=*3 from the initial state)
 
 ### Results
 #### CPU Utilization vs Response time (All services)
