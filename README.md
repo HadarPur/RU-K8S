@@ -155,6 +155,31 @@ Attacker flow contains user_count = 24 and spawn_rate = 1.
   <img src="https://github.com/HadarPur/RU-K8S-FinalProject/blob/master/promethues/queries/experiment1-03-04-19-44-21-03-with-istio-1/Screen%20Shot%202022-03-04%20at%2021.02.28.png" alt="drawing" width="800"/>
 </p>
 
+### Experiment #3 with Istio
+Starting from: 
+* 5 nodes(trying to set to 3 as before, but seems the default with istio to be 5) 
+* 1 pod per service, with 2 ready state for each pod due to istio.
+
+Regular flow contains user_count = 8 and spawn_rate = 10.
+
+Attacker flow contains user_count = 48 and spawn_rate = 1.
+
+### Results
+#### CPU Utilization vs Response time (All services)
+<p align="center">
+  <img src="" alt="drawing" width="800"/>
+</p>
+
+#### Pods vs Nodes
+<p align="center">
+  <img src="" alt="drawing" width="800"/>
+</p>
+
+#### Power vs time
+<p align="center">
+  <img src="" alt="drawing" width="800"/>
+</p>
+
 ## Conclusions and Future work
 ### Conclusions
 ### Future work
