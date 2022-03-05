@@ -5,14 +5,12 @@ from locust import User
 
 class Attacker(object):
     def __init__(self, user: Type[User], count: int, spawn_rate: int):
-        # setup Environment and Runner
         self.environment = Environment(user_classes=[user])
         self.environment.create_local_runner()
         self.count = count
         self.spawn_rate = spawn_rate
 
     def start(self):
-        # start the test
         self.environment.runner.start(self.count, spawn_rate=self.spawn_rate)
 
     def stop(self):
