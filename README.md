@@ -18,7 +18,7 @@ DDoS is an old attack pattern, and there are well-known solutions for protecting
 
 In this work, we will demonstrate the YoYo attack - a burst attack which deliberately targets auto scaling of VMs in cloud platforms.
 This work is based on a research that was made in the Past by Mr. Ronen Ben David and ours truly Anat Bremler-Barr.
-* We used gcp environment with k8s to build the clusters, nodes, podes and services from scratch, integrated with Istio as a victim.
+* We used GCP environment with k8s to build the clusters, nodes, pods and services from scratch, integrated with Istio as a victim.
 * We used a VM with Ubuntu OS, based on Daniel’s attack to make sure we will continue that same work as an attacker.
 
 To visualize the attack, we used Grafana with Prometheus queries.
